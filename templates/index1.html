@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color: #333333;">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock auto-rendering graph</title>
+
+    <link rel="stylesheet" href="index.css">
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+</head>
+<body>
+    <div id="data-container" style="width:100%; height:400px;"></div>
+
+    <script>
+        var chart;
+    
+        function requestData() {
+            var requests = $.get('/data');
+            console.log(requests)
+    
+            var tm = requests.done(function (result) {
+                var series = chart.series[0],
+                    shift = series.data.length > 20;
+    
+                chart.series[0].addPoint(result, true, shift);
+    
+                setTimeout(requestData, 2000);
+            });
+    
+            $(document).ready(function () {
+                chart = new Highcharts.chart('data-container', {
+                    chart: {
+                        type: 'spline',
+                        events: {
+                            load: requestData
+                        }
+                    }, 
+                    title: {
+                        text: 'Live stock data'
+                    },
+                    xAxis: {
+                        type: 'datatime',
+                        tickPixelInterval: 150,
+                        maxzoom: 20 *1000
+                    },
+                    yAxis: {
+                        minPadding: 0.2,
+                        maxPadding: 0.2,
+                        title: {
+                            text: 'Value',
+                            margin: 80
+                        }
+                    },
+                    series: [{
+                        name: 'Random data',
+                        data: []
+                    }]
+                });
+            });
+        }
+    </script>
+</body>
+</html> 
