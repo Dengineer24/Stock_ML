@@ -1,3 +1,4 @@
+import json
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -92,6 +93,7 @@ real_data = [model_inputs[len(model_inputs) + 1 - prediction_days:len(model_inpu
 real_data = np.array(real_data)
 real_data = np.reshape(real_data, (real_data.shape[0], real_data.shape[1], 1))
 
+global prediction
 prediction = model.predict(real_data)
 prediction = scaler.inverse_transform(prediction)
 print(f"Prediction: {prediction}")

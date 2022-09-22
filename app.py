@@ -2,6 +2,7 @@ from flask import Flask, render_template, make_response
 import json
 from random import random 
 from time import time 
+from main import prediction
 
 app = Flask(__name__)
 
@@ -11,7 +12,7 @@ def main():
 
 @app.route('/data', methods=["GET", "POST"])
 def data():
-    data = [time() * 1000, random() * 100]
+    data = [prediction]
     response = make_response(json.dumps(data))
     response.content_type = 'application/json'
     return response
