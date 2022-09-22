@@ -13,6 +13,7 @@ from keras.layers import Dense, Dropout, LSTM
 
 # load data 
 company = 'GOOGL'
+company.upper()
 
 start = dt.datetime(2017, 1, 1)
 end = dt.datetime(2022, 1, 1)
